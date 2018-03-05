@@ -12,8 +12,10 @@ fn main() {
     let mut game = Game::new();
 
     while let Some(event) = window.next() {
-        std::thread::sleep(std::time::Duration::from_millis(100));
-        println!("{:?}", game);
+        if let Some(UpdateArgs { dt }) = event.update_args() {
+            game.step(dt);
+            println!("{:?}", game);
+        }
 
         window.draw_2d(&event, |context, graphics| {
             piston_window::clear([1.0, 1.0, 1.0, 1.0], graphics);

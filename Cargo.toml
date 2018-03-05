@@ -5,3 +5,4 @@ authors = ["Paweł Obrok <pawel.obrok@gmail.com>"]
 
 [dependencies]
 piston_window = "*"
+rand = "*"
