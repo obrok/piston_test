@@ -1,4 +1,5 @@
 extern crate rand;
+extern crate std;
 
 use self::rand::random;
 
@@ -30,19 +31,41 @@ impl Game {
             for ref mut obstacle in self.obstacles.iter_mut() {
                 obstacle.y.down()
             }
-            self.obstacles.push(random_obstacle());
+            if next_step == 1.0 {
+                self.obstacles.push(random_obstacle());
+            }
         }
+    }
+
+    pub fn grid_height(&self) -> u8 {
+        10
+    }
+
+    pub fn grid_width(&self) -> u8 {
+        10
+    }
+
+    pub fn obstacles(&self) -> Vec<(u8, u8)> {
+        self.obstacles
+            .iter()
+            .map(
+                |&Position {
+                     x: XPosition(x),
+                     y: YPosition(y),
+                 }| (x, y),
+            )
+            .collect()
     }
 }
 
 #[derive(Debug)]
-struct Position {
+pub struct Position {
     x: XPosition,
     y: YPosition,
 }
 
 #[derive(Debug)]
-struct XPosition(u8);
+pub struct XPosition(u8);
 
 impl XPosition {
     fn middle() -> XPosition {
@@ -51,7 +74,7 @@ impl XPosition {
 }
 
 #[derive(Debug)]
-struct YPosition(u8);
+pub struct YPosition(u8);
 
 impl YPosition {
     fn bottom() -> YPosition {
