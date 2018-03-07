@@ -44,6 +44,11 @@ fn main() {
                 _ => (),
             }
         }
+
+        if game.lost() {
+            println!("You lose!");
+            window.set_should_close(true);
+        }
     }
 }
 

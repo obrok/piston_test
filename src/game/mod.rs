@@ -75,9 +75,13 @@ impl Game {
             self.player = player
         }
     }
+
+    pub fn lost(&self) -> bool {
+        self.obstacles.iter().any(|o| o == &self.player)
+    }
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct Position {
     x: XPosition,
     y: YPosition,
@@ -97,7 +101,7 @@ impl Position {
     }
 }
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq)]
 pub struct XPosition(u8);
 
 impl XPosition {
@@ -122,7 +126,7 @@ impl XPosition {
     }
 }
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq)]
 pub struct YPosition(u8);
 
 impl YPosition {
