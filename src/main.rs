@@ -20,8 +20,8 @@ fn main() {
             window.draw_2d(&event, |context, graphics| {
                 let width = width as f64;
                 let height = height as f64;
-                let grid_x_step = width / (game.grid_height() as f64);
-                let grid_y_step = height / (game.grid_width() as f64);
+                let grid_x_step = width / (game.grid_width() as f64);
+                let grid_y_step = height / (game.grid_height() as f64);
 
                 piston_window::clear([0.0; 4], graphics);
                 for (x, y) in game.obstacles() {

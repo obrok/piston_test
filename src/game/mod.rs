@@ -3,6 +3,9 @@ extern crate std;
 
 use self::rand::random;
 
+const X_SIZE: u8 = 10;
+const Y_SIZE: u8 = 10;
+
 #[derive(Debug)]
 pub struct Game {
     player: Position,
@@ -34,11 +37,11 @@ impl Game {
     }
 
     pub fn grid_height(&self) -> u8 {
-        10
+        Y_SIZE
     }
 
     pub fn grid_width(&self) -> u8 {
-        10
+        X_SIZE
     }
 
     pub fn obstacles(&self) -> Vec<(u8, u8)> {
@@ -71,7 +74,7 @@ pub struct XPosition(u8);
 
 impl XPosition {
     fn middle() -> XPosition {
-        XPosition(5)
+        XPosition(X_SIZE / 2)
     }
 }
 
@@ -84,7 +87,7 @@ impl YPosition {
     }
 
     fn top() -> YPosition {
-        YPosition(9)
+        YPosition(Y_SIZE - 1)
     }
 
     fn down(&self) -> Option<YPosition> {
@@ -98,7 +101,7 @@ impl YPosition {
 
 fn random_obstacle() -> Position {
     Position {
-        x: XPosition(random::<u8>() % 10),
+        x: XPosition(random::<u8>() % X_SIZE),
         y: YPosition::top(),
     }
 }
