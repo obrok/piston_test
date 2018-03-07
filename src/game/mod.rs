@@ -28,9 +28,7 @@ impl Game {
         let next_step = self.time.trunc();
 
         if next_step > previous_step {
-            for ref mut obstacle in self.obstacles.iter_mut() {
-                obstacle.y.down()
-            }
+            self.obstacles = self.obstacles.iter().filter_map(Position::down).collect();
             self.obstacles.push(random_obstacle());
         }
     }
@@ -62,7 +60,13 @@ pub struct Position {
     y: YPosition,
 }
 
-#[derive(Debug)]
+impl Position {
+    fn down(&self) -> Option<Position> {
+        self.y.down().map(|y| Position { x: self.x, y })
+    }
+}
+
+#[derive(Debug, Copy, Clone)]
 pub struct XPosition(u8);
 
 impl XPosition {
@@ -71,7 +75,7 @@ impl XPosition {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub struct YPosition(u8);
 
 impl YPosition {
@@ -83,8 +87,12 @@ impl YPosition {
         YPosition(9)
     }
 
-    fn down(&mut self) {
-        self.0 -= 1
+    fn down(&self) -> Option<YPosition> {
+        if self.0 <= 0 {
+            None
+        } else {
+            Some(YPosition(self.0 - 1))
+        }
     }
 }
 
