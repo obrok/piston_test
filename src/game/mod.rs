@@ -55,6 +55,14 @@ impl Game {
             )
             .collect()
     }
+
+    pub fn player(&self) -> (u8, u8) {
+        let Position {
+            x: XPosition(x),
+            y: YPosition(y),
+        } = self.player;
+        (x, y)
+    }
 }
 
 #[derive(Debug)]

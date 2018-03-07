@@ -16,31 +16,41 @@ fn main() {
             game.step(dt);
         }
 
-        if let Some(RenderArgs { width, height, .. }) = event.render_args() {
+        if let Some(render_args) = event.render_args() {
             window.draw_2d(&event, |context, graphics| {
-                let width = width as f64;
-                let height = height as f64;
-                let grid_x_step = width / (game.grid_width() as f64);
-                let grid_y_step = height / (game.grid_height() as f64);
-
                 piston_window::clear([0.0; 4], graphics);
-                for (x, y) in game.obstacles() {
-                    let x = x as f64;
-                    let y = y as f64;
-
+                for position in game.obstacles() {
                     piston_window::rectangle(
-                        [0.5, 0.5, 0.0, 1.0],
-                        [
-                            grid_x_step * (game.grid_width() as f64 - x - 1.0),
-                            grid_y_step * (game.grid_height() as f64 - y - 1.0),
-                            grid_x_step,
-                            grid_y_step,
-                        ],
+                        [1.0, 0.0, 0.0, 1.0],
+                        rectangle(&render_args, &game, position),
                         context.transform,
                         graphics,
                     );
                 }
+
+                piston_window::rectangle(
+                    [0.0, 1.0, 0.0, 1.0],
+                    rectangle(&render_args, &game, game.player()),
+                    context.transform,
+                    graphics,
+                );
             });
         }
     }
+}
+
+fn rectangle(render_args: &RenderArgs, game: &Game, (x, y): (u8, u8)) -> [f64; 4] {
+    let width = render_args.width as f64;
+    let height = render_args.height as f64;
+    let grid_x_step = width / (game.grid_width() as f64);
+    let grid_y_step = height / (game.grid_height() as f64);
+    let x = x as f64;
+    let y = y as f64;
+
+    [
+        grid_x_step * (game.grid_width() as f64 - x - 1.0),
+        grid_y_step * (game.grid_height() as f64 - y - 1.0),
+        grid_x_step,
+        grid_y_step,
+    ]
 }
