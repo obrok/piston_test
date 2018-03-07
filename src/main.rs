@@ -14,7 +14,6 @@ fn main() {
     while let Some(event) = window.next() {
         if let Some(UpdateArgs { dt }) = event.update_args() {
             game.step(dt);
-            println!("{:?}", game);
         }
 
         if let Some(RenderArgs { width, height, .. }) = event.render_args() {
@@ -31,12 +30,7 @@ fn main() {
 
                     piston_window::rectangle(
                         [0.5, 0.5, 0.0, 1.0],
-                        [
-                            grid_x_step * x,
-                            grid_y_step * y,
-                            grid_x_step * (x + 1.0),
-                            grid_y_step * (y + 1.0),
-                        ],
+                        [grid_x_step * x, grid_y_step * y, grid_x_step, grid_y_step],
                         context.transform,
                         graphics,
                     );

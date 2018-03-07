@@ -31,9 +31,7 @@ impl Game {
             for ref mut obstacle in self.obstacles.iter_mut() {
                 obstacle.y.down()
             }
-            if next_step == 1.0 {
-                self.obstacles.push(random_obstacle());
-            }
+            self.obstacles.push(random_obstacle());
         }
     }
 
