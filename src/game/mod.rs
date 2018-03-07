@@ -65,11 +65,15 @@ impl Game {
     }
 
     pub fn left(&mut self) {
-        self.player = self.player.left()
+        if let Some(player) = self.player.left() {
+            self.player = player
+        }
     }
 
     pub fn right(&mut self) {
-        self.player = self.player.right()
+        if let Some(player) = self.player.right() {
+            self.player = player
+        }
     }
 }
 
@@ -84,18 +88,12 @@ impl Position {
         self.y.down().map(|y| Position { x: self.x, y })
     }
 
-    fn left(&self) -> Position {
-        Position {
-            x: self.x.left(),
-            y: self.y,
-        }
+    fn left(&self) -> Option<Position> {
+        self.x.left().map(|x| Position { x, y: self.y })
     }
 
-    fn right(&self) -> Position {
-        Position {
-            x: self.x.right(),
-            y: self.y,
-        }
+    fn right(&self) -> Option<Position> {
+        self.x.right().map(|x| Position { x, y: self.y })
     }
 }
 
@@ -107,12 +105,20 @@ impl XPosition {
         XPosition(X_SIZE / 2)
     }
 
-    fn left(&self) -> XPosition {
-        XPosition(self.0 - 1)
+    fn left(&self) -> Option<XPosition> {
+        if self.0 <= 0 {
+            None
+        } else {
+            Some(XPosition(self.0 - 1))
+        }
     }
 
-    fn right(&self) -> XPosition {
-        XPosition(self.0 + 1)
+    fn right(&self) -> Option<XPosition> {
+        if self.0 >= X_SIZE - 1 {
+            None
+        } else {
+            Some(XPosition(self.0 + 1))
+        }
     }
 }
 
