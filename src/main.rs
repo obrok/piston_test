@@ -30,7 +30,12 @@ fn main() {
 
                     piston_window::rectangle(
                         [0.5, 0.5, 0.0, 1.0],
-                        [grid_x_step * x, grid_y_step * y, grid_x_step, grid_y_step],
+                        [
+                            grid_x_step * (game.grid_width() as f64 - x - 1.0),
+                            grid_y_step * (game.grid_height() as f64 - y - 1.0),
+                            grid_x_step,
+                            grid_y_step,
+                        ],
                         context.transform,
                         graphics,
                     );
