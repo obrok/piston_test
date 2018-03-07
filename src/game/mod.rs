@@ -63,6 +63,14 @@ impl Game {
         } = self.player;
         (x, y)
     }
+
+    pub fn left(&mut self) {
+        self.player = self.player.left()
+    }
+
+    pub fn right(&mut self) {
+        self.player = self.player.right()
+    }
 }
 
 #[derive(Debug)]
@@ -75,6 +83,20 @@ impl Position {
     fn down(&self) -> Option<Position> {
         self.y.down().map(|y| Position { x: self.x, y })
     }
+
+    fn left(&self) -> Position {
+        Position {
+            x: self.x.left(),
+            y: self.y,
+        }
+    }
+
+    fn right(&self) -> Position {
+        Position {
+            x: self.x.right(),
+            y: self.y,
+        }
+    }
 }
 
 #[derive(Debug, Copy, Clone)]
@@ -83,6 +105,14 @@ pub struct XPosition(u8);
 impl XPosition {
     fn middle() -> XPosition {
         XPosition(X_SIZE / 2)
+    }
+
+    fn left(&self) -> XPosition {
+        XPosition(self.0 - 1)
+    }
+
+    fn right(&self) -> XPosition {
+        XPosition(self.0 + 1)
     }
 }
 

@@ -36,6 +36,14 @@ fn main() {
                 );
             });
         }
+
+        if let Some(Button::Keyboard(key)) = event.press_args() {
+            match key {
+                Key::Left {} => game.left(),
+                Key::Right {} => game.right(),
+                _ => (),
+            }
+        }
     }
 }
 
@@ -48,7 +56,7 @@ fn rectangle(render_args: &RenderArgs, game: &Game, (x, y): (u8, u8)) -> [f64; 4
     let y = y as f64;
 
     [
-        grid_x_step * (game.grid_width() as f64 - x - 1.0),
+        grid_x_step * x,
         grid_y_step * (game.grid_height() as f64 - y - 1.0),
         grid_x_step,
         grid_y_step,
