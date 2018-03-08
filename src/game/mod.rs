@@ -19,30 +19,31 @@ impl Game {
     }
 
     pub fn step(self, dt: f64) -> Game {
-        match self {
-            Game::Lost(game) => Game::Lost(game),
-            Game::InProgress(game) => game.step(dt),
-        }
+        self.flat_map(|game| game.step(dt))
     }
 
     pub fn left(self) -> Game {
-        match self {
-            Game::Lost(game) => Game::Lost(game),
-            Game::InProgress(game) => game.left(),
-        }
+        self.flat_map(|game| game.left())
     }
 
     pub fn right(self) -> Game {
-        match self {
-            Game::Lost(game) => Game::Lost(game),
-            Game::InProgress(game) => game.right(),
-        }
+        self.flat_map(|game| game.right())
     }
 
     pub fn in_progress(&self) -> Option<&InProgressGame> {
         match self {
             &Game::Lost(_) => None,
             &Game::InProgress(ref game) => Some(game),
+        }
+    }
+
+    fn flat_map<F>(self, f: F) -> Game
+    where
+        F: Fn(InProgressGame) -> Game,
+    {
+        match self {
+            Game::Lost(game) => Game::Lost(game),
+            Game::InProgress(game) => f(game),
         }
     }
 }
