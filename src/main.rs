@@ -1,7 +1,7 @@
 extern crate piston_test;
 extern crate piston_window;
 
-use piston_test::game::{Game, InProgressGame};
+use piston_test::game::{Game, InProgressGame, LostGame};
 use piston_window::*;
 
 fn main() {
@@ -47,8 +47,8 @@ fn main() {
             }
         }
 
-        if let Game::Lost(_) = game {
-            println!("You lose!");
+        if let Game::Lost(LostGame { score }) = game {
+            println!("You scored {}", score);
             window.set_should_close(true);
         }
     }

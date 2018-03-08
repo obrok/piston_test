@@ -57,7 +57,7 @@ pub struct InProgressGame {
 
 #[derive(Debug)]
 pub struct LostGame {
-    score: u64,
+    pub score: u64,
 }
 
 impl InProgressGame {
@@ -138,7 +138,9 @@ impl InProgressGame {
 
     fn check_lost(self) -> Game {
         if self.obstacles.iter().any(|o| o == &self.player) {
-            Game::Lost(LostGame { score: 0 })
+            Game::Lost(LostGame {
+                score: self.time as u64,
+            })
         } else {
             Game::InProgress(self)
         }
