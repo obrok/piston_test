@@ -5,6 +5,7 @@ use self::rand::random;
 
 const X_SIZE: u8 = 10;
 const Y_SIZE: u8 = 10;
+const DIFFICULTY_GRADIENT: f64 = 1.25;
 
 #[derive(Debug)]
 pub struct Game {
@@ -26,9 +27,9 @@ impl Game {
     }
 
     pub fn step(&mut self, dt: f64) {
-        let previous_step = self.time.trunc();
+        let previous_step = self.time.powf(DIFFICULTY_GRADIENT).trunc();
         self.time += dt;
-        let next_step = self.time.trunc();
+        let next_step = self.time.powf(DIFFICULTY_GRADIENT).trunc();
 
         if next_step > previous_step {
             self.obstacles = self.obstacles.iter().filter_map(Position::down).collect();
