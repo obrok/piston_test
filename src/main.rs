@@ -1,14 +1,22 @@
+extern crate find_folder;
 extern crate piston_test;
 extern crate piston_window;
 
 use piston_test::game::{Game, InProgressGame, LostGame};
 use piston_window::*;
 
+
 fn main() {
     let mut window: PistonWindow = WindowSettings::new("Crappy game", [1024, 1024])
         .exit_on_esc(true)
         .build()
         .expect("Failed to initialize window");
+    let factory = window.factory.clone();
+    let res = find_folder::Search::ParentsThenKids(3, 3)
+        .for_folder("res")
+        .unwrap();
+    let ref font = res.join("Roboto-Regular.ttf");
+    let mut glyphs = piston_window::Glyphs::new(font, factory, TextureSettings::new()).unwrap();
     let mut game = Game::new();
 
     while let Some(event) = window.next() {
@@ -36,6 +44,20 @@ fn main() {
                         graphics,
                     );
                 });
+            } else if let Game::Lost(LostGame { score, .. }) = game {
+                window.draw_2d(&event, |context, graphics| {
+                    let transform = context.transform.trans(100.0, 100.0);
+                    clear([0.0; 4], graphics);
+                    text::Text::new_color([1.0; 4], 32)
+                        .draw(
+                            &format!("You scored {}!", score),
+                            &mut glyphs,
+                            &context.draw_state,
+                            transform,
+                            graphics,
+                        )
+                        .unwrap();
+                });
             }
         }
 
@@ -45,11 +67,6 @@ fn main() {
                 Key::Right {} => game = game.right(),
                 _ => (),
             }
-        }
-
-        if let Game::Lost(LostGame { score, .. }) = game {
-            println!("You scored {}", score);
-            window.set_should_close(true);
         }
     }
 }
