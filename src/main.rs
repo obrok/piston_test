@@ -47,7 +47,7 @@ fn main() {
             }
         }
 
-        if let Game::Lost(LostGame { score }) = game {
+        if let Game::Lost(LostGame { score, .. }) = game {
             println!("You scored {}", score);
             window.set_should_close(true);
         }

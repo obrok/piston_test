@@ -5,7 +5,7 @@ use self::rand::random;
 
 const X_SIZE: u8 = 10;
 const Y_SIZE: u8 = 10;
-const DIFFICULTY_GRADIENT: f64 = 1.25;
+const DIFFICULTY_GRADIENT: f64 = 1.33;
 
 #[derive(Debug)]
 pub enum Game {
