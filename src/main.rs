@@ -50,7 +50,7 @@ fn main() {
                     clear([0.0; 4], graphics);
                     text::Text::new_color([1.0; 4], 32)
                         .draw(
-                            &format!("You scored {}!", score),
+                            &format!("You scored {}! Press 'R' to restart.", score),
                             &mut glyphs,
                             &context.draw_state,
                             transform,
@@ -65,6 +65,7 @@ fn main() {
             match key {
                 Key::Left {} => game = game.left(),
                 Key::Right {} => game = game.right(),
+                Key::R {} => game = game.restart(),
                 _ => (),
             }
         }

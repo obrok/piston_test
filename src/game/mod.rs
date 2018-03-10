@@ -30,6 +30,13 @@ impl Game {
         self.flat_map(|game| game.right())
     }
 
+    pub fn restart(self) -> Game {
+        match self {
+            Game::Lost(_) => Game::new(),
+            other => other,
+        }
+    }
+
     pub fn in_progress(&self) -> Option<&InProgressGame> {
         match self {
             &Game::Lost(_) => None,
