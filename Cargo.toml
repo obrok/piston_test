@@ -7,3 +7,4 @@ authors = ["Paweł Obrok <pawel.obrok@gmail.com>"]
 piston_window = "*"
 rand = "*"
 find_folder = "*"
+piston2d-sprite = "*"
